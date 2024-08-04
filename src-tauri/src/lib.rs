@@ -5,15 +5,24 @@ use state::{AppState, ServiceAccess};
 use tauri::{State, Manager, AppHandle};
 
 #[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+fn greet(app_handle: AppHandle, name: &str) -> String {
+    // Should handle errors instead of unwrapping here
+    app_handle.db(|db| database::add_item(name, db)).unwrap();
+
+    let items = app_handle.db(|db| database::get_all(db)).unwrap();
+
+    let items_string = items.join(" | ");
+
+    format!("Your name log: {}", items_string)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .manage(AppState { db: Default::default() })
         .plugin(tauri_plugin_log::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
+        .invoke_handler(tauri::generate_handler![greet])
         .setup(|app| {
             let handle = app.handle();
                 
@@ -23,7 +32,6 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greet])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
