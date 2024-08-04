@@ -20,3 +20,4 @@ tauri-plugin-shell = "2.0.0-rc"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tauri-plugin-log = "2.0.0-rc"
+rusqlite = "0.32.1"

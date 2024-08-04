@@ -1,3 +1,3 @@
-package com.tauri.dev
+package com.deron.typer
 
 class MainActivity : TauriActivity()
