@@ -1,0 +1,139 @@
+@import "/public/styles/main_navbar.css";
+
+:root {
+    --background: lightgray;
+    --main1: white;
+    --text1: black;
+    --text2: darkgray;
+
+  font-family: "Cantarell", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color: #0f0f0f;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+    background-color: var(--background);
+
+    margin: 0;
+}
+
+header {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 25px 5px 20px;
+}
+
+header h1 { letter-spacing: 2px; }
+
+header button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
+    background-color: var(--main1);
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    font-size: 36px;
+}
+
+main { color: white }
+
+section {
+    display: flex;
+    width: 100%;
+}
+
+section div.seperator {
+    box-sizing: border-box;
+    padding: 0 20px 0 22px;
+    display: flex;
+    width: 100%;
+    color: var(--text2);
+    font-weight: 300;
+    font-size: 24px;
+
+}
+
+section div.seperator hr { 
+    width: 100%;
+    border-color: var(--text2);
+    border-width: 0.5px;
+    margin-left: 20px;
+}
+
+#modal_add { 
+    z-index: -999;
+    opacity: 0;
+    position: absolute;
+    background: rgba(1, 1, 1, 0.5);
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.15s;
+}
+
+#modal_add #buttons button {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 100%;
+}
+
+#modal_add.active {
+    opacity: 100%;
+    z-index: 1;
+}
+
+#modal_add div {
+    background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
+    width: 350px;
+    height: 525px;
+    border-radius: 40px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0C0B0D;
+    --main1: #161517;
+    --highlight: #3D3F402f;
+    --text1: #ffffffff;
+    --text2: #3D3F40;
+    --shine: #1B1F21;
+  }
+
+  a:hover {
+    color: #24c8db;
+  }
+
+  input,
+  button {
+    color: #ffffff;
+    background-color: #0f0f0f98;
+  }
+  button:active {
+    background-color: #0f0f0f69;
+  }
+}
+
+@font-face {
+  font-family: "Cantarell";
+  src: url("/public/Cantarell-VF.otf") format("opentype");
+}

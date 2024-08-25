@@ -1,0 +1,28 @@
+#main_navbar {
+    background-color: var(--main1);
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 65px;
+}
+
+#main_navbar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 12px;
+    line-height: 18px;
+    text-decoration: none;
+    width: 100%;
+    
+    transition: color 0.1s;
+    color: var(--text2);
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+#main_navbar a.hovered { color: var(--text1) }
+#main_navbar a.focused { color: var(--text1) }
+#main_navbar a svg { font-size: 26px }

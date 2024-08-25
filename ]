@@ -1,0 +1,47 @@
+use leptos::*;
+use crate::app::icons::{HomeIcon, HomeFillIcon, FlagIcon, FlagFillIcon, SettingsIcon, SettingsFillIcon};
+
+#[component]
+pub fn MainNavbar() -> impl IntoView {
+    let current_path = move || leptos_router::use_location().pathname.get();
+    let is_focused = move |path: &str| if current_path() == path {"focused"} else {""};
+
+    let (c_hovered, set_c_hovered) = create_signal(0);
+    let is_hovered = move |index: i8| if c_hovered.get() == index {"hovered"} else {""};
+
+    let touch_start = move |index: i8| move |_| set_c_hovered.set(index);
+
+    view! {
+        <nav id="main_navbar">
+            <a href="/" class={ move || format!("{} {}", is_focused("/"), is_hovered(1)) } 
+            on:touchstart=move |_| set_c_hovered.set(1)
+            on:touchend=move |_| set_c_hovered.set(0)
+            on:touchcancel=move |_| set_c_hovered.set(0)>
+                <Show when=move || { current_path() == "/" } fallback=|| view! { 
+                    <HomeIcon/> Home }> 
+                    <HomeFillIcon/> Home 
+                </Show>
+            </a>
+            
+            <a href="/languages" class={ move || format!("{} {}", is_focused("/languages"), is_hovered(2)) }
+            on:touchstart=move |_| set_c_hovered.set(2)
+            on:touchend=move |_| set_c_hovered.set(0)
+            on:touchcancel=move |_| set_c_hovered.set(0)>
+                <Show when=move || { current_path() == "/languages"} fallback=|| view! { 
+                    <FlagIcon/> Languages }> 
+                    <FlagFillIcon/> Languages 
+                </Show>
+            </a>
+            
+            <a href="/settings" class={ move || format!("{} {}", is_focused("/settings"), is_hovered(3)) }
+            on:touchstart=move |_| set_c_hovered.set(3)
+            on:touchend=move |_| set_c_hovered.set(0)
+            on:touchcancel=move |_| set_c_hovered.set(0)>
+                <Show when=move || { current_path() == "/settings" } fallback=|| view! {
+                    <SettingsIcon/> Settings }>
+                    <SettingsFillIcon/> Settings 
+                </Show>
+            </a>
+        </nav>
+    }
+}
