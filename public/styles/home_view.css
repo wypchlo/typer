@@ -59,12 +59,13 @@
 
     transition: opacity 0.15s;
     opacity: 0;
-    z-index: -999;
+    pointer-events: none;
+    z-index: 10;
 }
 
 #home_view #modal_add.active {
     opacity: 100%;
-    z-index: 1;
+    pointer-events: auto;
 }
 
 #home_view #modal_add form {
@@ -121,4 +122,5 @@
     border-radius: 100%;
     font-size: 48px;
     color: var(--main1);
+    background: linear-gradient(-45deg, var(--antishine) 0%, var(--text1) 100%);
 }

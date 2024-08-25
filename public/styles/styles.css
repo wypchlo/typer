@@ -12,6 +12,7 @@
     --text1: #2f3133;
     --text2: #b7bdc2;
     --shine: #f6f7f7;
+    --antishine: #1B1C1C;
 
   font-family: "Cantarell", sans-serif;
   font-size: 16px;
@@ -39,5 +40,6 @@ body {
     --text1: #ffffffff;
     --text2: #3D3F40;
     --shine: #1B1F21;
+    --antishine: #EDF3F7;
   }
 }

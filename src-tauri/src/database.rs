@@ -2,7 +2,7 @@ use rusqlite::{Connection, named_params};
 use tauri::{App, Manager};
 use std::fs;
 
-const CURRENT_DB_VERSION: u32 = 1;
+const CURRENT_DB_VERSION: u32 = 2;
 
 pub fn initialize_database(app: &App) -> Result<Connection, rusqlite::Error> {
     let app_dir = app.path().app_data_dir().expect("App data directory should exist");
@@ -53,9 +53,16 @@ pub struct Set {
     created_date: String
 }
 
-pub fn add_item(title: &str, conn: &Connection) -> Result<(), rusqlite::Error> {
-   let mut statement = conn.prepare("INSERT INTO items (title) VALUES (@title)")?;
-   statement.execute(named_params! { "@title": title })?;
+pub struct NewSet<'a> {
+    pub name: &'a str,
+    pub description: &'a str
+}
+
+pub fn add_set(set: NewSet, conn: &Connection) -> Result<(), rusqlite::Error> {
+   /*let mut statement = conn.prepare("INSERT INTO sets (name, description, create_date) VALUES (@name, @description, @create_date)")?;*/
+   let current_date = chrono::Utc::now().format("%Y-%m-%d %H:%M:%S").to_string();
+   println!("{}", current_date);
+   /*statement.execute(named_params! { "@name": set.name, "@description": set.description })?;*/
 
    Ok(())
 }
