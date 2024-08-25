@@ -1,0 +1,82 @@
+#home_view { color: var(--text1) }
+
+#home_view header {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 25px 5px 20px;
+}
+
+#home_view header h1 { letter-spacing: 2px; }
+
+#home_view header button {
+    color: var(--text1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    font-size: 36px;
+}
+
+#home_view section {
+    display: flex;
+    width: 100%;
+}
+
+#home_view section div.seperator {
+    box-sizing: border-box;
+    padding: 0 20px 0 22px;
+    display: flex;
+    width: 100%;
+    color: var(--text2);
+    font-weight: 300;
+    font-size: 24px;
+
+}
+
+#home_view section div.seperator hr { 
+    width: 100%;
+    border: none;
+    height: 1px;
+    background-color: var(--text2);
+    margin-left: 20px;
+}
+
+#home_view #modal_add { 
+    position: absolute;
+    background: rgba(1, 1, 1, 0.5);
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: opacity 0.15s;
+    opacity: 0;
+    z-index: -999;
+}
+
+#home_view #modal_add.active {
+    opacity: 100%;
+    z-index: 1;
+}
+
+#home_view #modal_add #buttons button {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 100%;
+}
+
+#home_view #modal_add div {
+    background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
+    width: 350px;
+    height: 525px;
+    border-radius: 40px;
+}
