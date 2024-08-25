@@ -1,19 +1,24 @@
 use leptos::*;
-use crate::app::components::icons::AddIcon;
+use crate::app::components::icons::{AddIcon, CancelIcon, ConfirmIcon};
 
 #[component]
 pub fn HomeView() -> impl IntoView {
     let (state, set_state) = create_signal("normal");
+    
+    let on_submit = move |event: leptos::ev::SubmitEvent| event.prevent_default();
 
     view! {
         <main id="home_view">
             <div id="modal_add" class=move || if state.get() == "add" {"active"} else {""}>
-                <div>
-                    <section id="buttons">
-                        <button id="cancel" on:click=move |_| set_state.set("normal")></button>
-                        <button id="confirm"></button>
+                <form on:submit=on_submit>
+                    <section id="inputs">
+                        name
                     </section>
-                </div>
+                    <section id="buttons">
+                        <button id="cancel" on:click=move |_| set_state.set("normal")><CancelIcon/></button>
+                        <button id="confirm"><ConfirmIcon/></button>
+                    </section>
+                </form>
             </div>
 
             <header>

@@ -42,7 +42,7 @@
 #home_view section div.seperator hr { 
     width: 100%;
     border: none;
-    height: 1px;
+    height: 0.5px;
     background-color: var(--text2);
     margin-left: 20px;
 }
@@ -67,16 +67,33 @@
     z-index: 1;
 }
 
-#home_view #modal_add #buttons button {
-    width: 60px;
-    height: 60px;
-    border: none;
-    border-radius: 100%;
-}
-
-#home_view #modal_add div {
+#home_view #modal_add form {
     background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
     width: 350px;
     height: 525px;
     border-radius: 40px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#home_view #modal_add form #buttons {
+    bottom: 0;
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+#home_view #modal_add form #buttons button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 100%;
+    font-size: 48px;
+    color: var(--main1);
 }
