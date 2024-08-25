@@ -78,6 +78,31 @@
     justify-content: space-between;
 }
 
+#home_view #modal_add form #inputs {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    height: 100%;
+}
+
+#home_view #modal_add form #inputs textarea {
+    field-sizing: content;
+    resize: none;
+    border: none;
+    background: none;
+    max-width: 90%;
+    text-align: center;
+    color: var(--text1);
+}
+
+#home_view #modal_add form #inputs textarea:focus { outline: none }
+
+#home_view #modal_add form #inputs #name { font-size: 34px }
+#home_view #modal_add form #inputs #description { font-size: 18px }
+#home_view #modal_add form #inputs textarea::placeholder { color: var(--text2) }
+
 #home_view #modal_add form #buttons {
     bottom: 0;
     display: flex;

@@ -12,7 +12,8 @@ pub fn HomeView() -> impl IntoView {
             <div id="modal_add" class=move || if state.get() == "add" {"active"} else {""}>
                 <form on:submit=on_submit>
                     <section id="inputs">
-                        name
+                        <textarea id="name" placeholder="Set name"/>
+                        <textarea id="description" placeholder="description"/>
                     </section>
                     <section id="buttons">
                         <button id="cancel" on:click=move |_| set_state.set("normal")><CancelIcon/></button>
