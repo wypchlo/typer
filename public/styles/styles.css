@@ -1,5 +1,5 @@
 @import "/public/styles/main_navbar.css";
-@import "/public/styles/home_view.css";
+@import "/public/styles/home_view/main.css";
 
 @font-face {
   font-family: "Cantarell";
@@ -27,6 +27,11 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+body, html {
+    height: 100%;
+    width: 100%;
+} 
 
 body {
     background-color: var(--background);

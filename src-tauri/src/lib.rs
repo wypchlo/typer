@@ -4,7 +4,7 @@ pub mod dbstructs;
 
 use tauri::{Manager, State, AppHandle};
 use state::{ServiceAccess, AppState};
-use dbstructs::NewSet;
+use dbstructs::{NewSet, Set};
 
 #[tauri::command]
 fn add_set(name: &str, description: &str, app_handle: AppHandle) -> String {
@@ -18,13 +18,18 @@ fn add_set(name: &str, description: &str, app_handle: AppHandle) -> String {
     /*let items = app_handle.conn(|conn| database::get_all_sets(conn)).unwrap();*/
 }
 
+#[tauri::command]
+fn get_all_sets(app_handle: AppHandle) -> Vec<Set> {
+    app_handle.conn(|conn| database::get_all_sets(conn)).unwrap()
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .manage(AppState { conn: Default::default() })
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_log::Builder::new().build())
-        .invoke_handler(tauri::generate_handler![add_set])
+        .invoke_handler(tauri::generate_handler![add_set, get_all_sets])
         .setup(|app| {
             let handle = app.handle();
 

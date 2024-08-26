@@ -16,6 +16,14 @@ pub struct AddSetArgs<'a>{
     description: &'a str
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct Set {
+    pub id: i32,
+    pub name: String,
+    pub description: Option<String>,
+    pub created_date: String
+}
+
 #[component]
 pub fn HomeView() -> impl IntoView {
     let form_ref = create_node_ref::<leptos::html::Form>();
@@ -33,6 +41,9 @@ pub fn HomeView() -> impl IntoView {
     let clear_form = move || {
         if let Some(form) = form_ref.get() {
             form.reset();
+            set_name_error.set(String::new());
+            set_name.set(String::new());
+            set_description.set(String::new());
         }
     };
 
@@ -40,6 +51,18 @@ pub fn HomeView() -> impl IntoView {
         event.prevent_default();
         clear_form();
         set_state.set("normal");
+    };
+    
+    let (sets, set_sets) = create_signal(Vec::<Set>::new());
+
+    let fetch_sets = move || {
+        spawn_local(async move {
+            let result = invoke("get_all_sets", wasm_bindgen::JsValue::null()).await;
+            match serde_wasm_bindgen::from_value::<Vec<Set>>(result) {
+                Ok(fetched_sets) => set_sets.set(fetched_sets),
+                Err(e) => println!("Failed to deserialize sets: {:?}", e),
+            }
+        });
     };
 
     let on_submit = move |event: leptos::ev::SubmitEvent| { 
@@ -62,6 +85,8 @@ pub fn HomeView() -> impl IntoView {
         });
     };
 
+    fetch_sets();
+
     view! {
         <main id="home_view">
             <div id="modal_add" class=move || if state.get() == "add" {"active"} else {""}>
@@ -69,7 +94,7 @@ pub fn HomeView() -> impl IntoView {
                     <section id="inputs">
                         <textarea on:input=update_name id="name" placeholder="Set name"/>
                         <Show when=move || !name_error.get().is_empty()>
-                            {move || name_error}
+                            <p class="error">{move || name_error}</p>
                         </Show>
                         <textarea on:input=update_description id="description" placeholder="description"/>
                     </section>
@@ -87,8 +112,17 @@ pub fn HomeView() -> impl IntoView {
                 </button>
             </header>
 
-            <section>
+            <section id="content">
                 <div class="seperator"> Recent <hr/> </div>
+                <ul>
+                    {move || sets.get().iter().map(|set| view! {
+                        <li>
+                            <strong>{&set.name}</strong>
+                            <p>{set.description.clone().unwrap_or_else(|| "No description".to_string())}</p>
+                            <small>{"Created on: "}{&set.created_date}</small>
+                        </li>
+                    }).collect_view()}
+                </ul>
             </section>
         </main>
     }

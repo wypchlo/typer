@@ -1,9 +1,8 @@
-use rusqlite::{Connection, named_params};
-use tauri::{App, Manager};
+use rusqlite::{Connection, named_params}; use tauri::{App, Manager};
 use std::fs;
 use crate::dbstructs::{Set, NewSet};
 
-const CURRENT_DB_VERSION: u32 = 1;
+const CURRENT_DB_VERSION: u32 = 2;
 
 pub fn initialize_database(app: &App) -> Result<Connection, rusqlite::Error> {
     let app_dir = app.path().app_data_dir().expect("App data directory should exist");
@@ -32,7 +31,7 @@ pub fn upgrade_database_if_needed(conn: &mut Connection, existing_version: u32) 
         tx.pragma_update(None, "user_version", CURRENT_DB_VERSION)?;
         
         tx.execute_batch("
-            CREATE TABLE sets
+            CREATE TABLE IF NOT EXISTS sets
             (
                 id INTEGER NOT NULL PRIMARY KEY,
                 name TEXT NOT NULL UNIQUE,
