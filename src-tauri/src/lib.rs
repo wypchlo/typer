@@ -1,14 +1,19 @@
 pub mod database;
 pub mod state;
+pub mod dbstructs;
 
-use database::Set;
 use tauri::{Manager, State, AppHandle};
 use state::{ServiceAccess, AppState};
-use database::NewSet;
+use dbstructs::NewSet;
 
 #[tauri::command]
-fn add_set(name: &str, description: &str, app_handle: AppHandle) {
-    app_handle.conn(|conn| database::add_set(NewSet{name, description}, conn)).unwrap();
+fn add_set(name: &str, description: &str, app_handle: AppHandle) -> String {
+    let result = app_handle.conn(|conn| database::add_set(NewSet{name, description}, conn));
+
+    match result {
+        Ok(_) => String::new(),
+        Err(msg) => msg.to_string()
+    }
 
     /*let items = app_handle.conn(|conn| database::get_all_sets(conn)).unwrap();*/
 }

@@ -1,8 +1,9 @@
 use rusqlite::{Connection, named_params};
 use tauri::{App, Manager};
 use std::fs;
+use crate::dbstructs::{Set, NewSet};
 
-const CURRENT_DB_VERSION: u32 = 2;
+const CURRENT_DB_VERSION: u32 = 1;
 
 pub fn initialize_database(app: &App) -> Result<Connection, rusqlite::Error> {
     let app_dir = app.path().app_data_dir().expect("App data directory should exist");
@@ -33,9 +34,9 @@ pub fn upgrade_database_if_needed(conn: &mut Connection, existing_version: u32) 
         tx.execute_batch("
             CREATE TABLE sets
             (
-                id INT NOT NULL PRIMARY KEY
-                name TEXT NOT NULL UNIQUE
-                description TEXT
+                id INTEGER NOT NULL PRIMARY KEY,
+                name TEXT NOT NULL UNIQUE,
+                description TEXT,
                 created_date TEXT NOT NULL
             );
         ")?;
@@ -46,25 +47,18 @@ pub fn upgrade_database_if_needed(conn: &mut Connection, existing_version: u32) 
     Ok(())
 }
 
-pub struct Set {
-    id: i32,
-    name: String,
-    description: Option<String>,
-    created_date: String
-}
-
-pub struct NewSet<'a> {
-    pub name: &'a str,
-    pub description: &'a str
-}
-
 pub fn add_set(set: NewSet, conn: &Connection) -> Result<(), rusqlite::Error> {
-   /*let mut statement = conn.prepare("INSERT INTO sets (name, description, create_date) VALUES (@name, @description, @create_date)")?;*/
+   let mut statement = conn.prepare("INSERT INTO sets (name, description, created_date) VALUES (@name, @description, @created_date)")?;
    let current_date = chrono::Utc::now().format("%Y-%m-%d %H:%M:%S").to_string();
-   println!("{}", current_date);
-   /*statement.execute(named_params! { "@name": set.name, "@description": set.description })?;*/
 
-   Ok(())
+   match statement.execute(named_params! { 
+       "@name": set.name, 
+       "@description": set.description, 
+       "@created_date": current_date 
+   }) {
+        Ok(_) => Ok(()),
+        Err(err) => Err(rusqlite::Error::from(err))
+    }
 }
 
 pub fn get_all_sets(conn: &Connection) -> Result<Vec<Set>, rusqlite::Error> {
