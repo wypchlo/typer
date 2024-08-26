@@ -82,6 +82,8 @@ pub fn HomeView() -> impl IntoView {
                 clear_form();
                 set_name_error.set(String::new());
             }
+
+            fetch_sets();
         });
     };
 
@@ -114,15 +116,14 @@ pub fn HomeView() -> impl IntoView {
 
             <section id="content">
                 <div class="seperator"> Recent <hr/> </div>
-                <ul>
+                <div id="sets_container">
                     {move || sets.get().iter().map(|set| view! {
-                        <li>
-                            <strong>{&set.name}</strong>
+                        <button class="set">
+                            <h1>{&set.name}</h1>
                             <p>{set.description.clone().unwrap_or_else(|| "No description".to_string())}</p>
-                            <small>{"Created on: "}{&set.created_date}</small>
-                        </li>
+                        </button>
                     }).collect_view()}
-                </ul>
+                </div>
             </section>
         </main>
     }

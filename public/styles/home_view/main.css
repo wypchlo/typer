@@ -57,3 +57,63 @@
     background-color: var(--text2);
     margin-left: 20px;
 }
+
+#home_view #content #sets_container {
+    box-sizing: border-box;
+    padding: 36px 10px 20px 10px;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+}
+
+#home_view #content #sets_container .set {
+    border: 0;
+    color: var(--text1);
+    position: relative;
+    background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
+    height: 245px;
+    width: 165px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    border-bottom: 3px solid var(--background);
+    border-right: 1px solid var(--background);
+    border-left: 1px solid var(--background);
+    margin-bottom: 10px; 
+    margin-top: 0;
+
+    transition: margin-top .1s, margin-bottom .1s;
+}
+
+#home_view #content #sets_container .set:active::before { bottom: 0 }
+#home_view #content #sets_container .set:active { 
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+#home_view #content #sets_container .set::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
+    position: absolute;
+    bottom: -10px;
+    border-radius: 20px;
+    z-index: -1;
+
+    transition: bottom .1s;
+}
+
+#home_view #content #sets_container .set h1 { 
+    font-size: 22px;
+    margin: 0;
+}
+#home_view #content #sets_container .set p { 
+    margin: 3px;
+    font-size: 11px;
+}
