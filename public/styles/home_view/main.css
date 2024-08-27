@@ -91,10 +91,18 @@
 }
 
 #home_view #content #sets_container .set:active::before { bottom: 0 }
-#home_view #content #sets_container .set:active { 
+#home_view #content #sets_container .selected::before { 
+    bottom: 0 !important;
+    background: white !important;
+}
+
+#home_view #content #sets_container .set:active,
+#home_view #content #sets_container .selected {
     margin-bottom: 0;
     margin-top: 10px;
 }
+
+#home_view #content #sets_container .selected { border: 2px solid var(--text1) }
 
 #home_view #content #sets_container .set::before {
     content: "";

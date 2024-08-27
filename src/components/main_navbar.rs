@@ -3,7 +3,7 @@ use leptos::*;
 use crate::app::components::icons::{HomeIcon, HomeFillIcon, FlagIcon, FlagFillIcon, SettingsIcon, SettingsFillIcon};
 
 #[component]
-pub fn MainNavbar() -> impl IntoView {
+pub fn MainNavbar(hide_navbar: ReadSignal<bool>) -> impl IntoView {
     let current_path = move || leptos_router::use_location().pathname.get();
     let is_focused = move |path: &str| if current_path() == path {"focused"} else {""};
 
@@ -15,7 +15,7 @@ pub fn MainNavbar() -> impl IntoView {
     let touch_stop = move |_| set_c_hovered.set(0);
 
     view! {
-        <nav id="main_navbar">
+        <nav id="main_navbar" class={ move || if hide_navbar.get() {"hidden"} else {""} }>
             <a href="/" class=move || link_class("/", 1)
             on:touchstart=touch_start(1) on:touchend=touch_stop on:touchcancel=touch_stop>
 

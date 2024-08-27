@@ -25,8 +25,10 @@ pub struct Set {
 }
 
 #[component]
-pub fn HomeView() -> impl IntoView {
+pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
     let form_ref = create_node_ref::<leptos::html::Form>();
+    
+    let (selected, set_selected) = create_signal(Vec::<i32>::new());
 
     let (state, set_state) = create_signal("normal");
     
@@ -86,6 +88,29 @@ pub fn HomeView() -> impl IntoView {
             fetch_sets();
         });
     };
+    
+    let (interval_handle, set_interval_handle) = create_signal::<Option<leptos_dom::helpers::IntervalHandle>>(None);
+
+    let set_touch_start = move |set_id: i32, index: usize| {
+        if selected.get().is_empty() { 
+            let interval_handle = set_interval_with_handle(move || {
+                let mut new_selected = selected.get();
+                new_selected.push(set_id);
+                set_selected.set(new_selected);
+                interval_handle.get().unwrap().clear();
+            }, std::time::Duration::from_millis(400));
+
+            set_interval_handle.set(Some(interval_handle.unwrap()));
+        }
+        else {
+            let mut new_selected = selected.get();
+            if new_selected.contains(&set_id) { new_selected.retain(|value| *value != set_id); }
+            else { new_selected.push(set_id); };
+            set_selected.set(new_selected);
+        };
+    };
+
+    let set_touch_stop = move |set_id: i32| { interval_handle.get().unwrap().clear() };
 
     fetch_sets();
 
@@ -108,6 +133,7 @@ pub fn HomeView() -> impl IntoView {
             </div>
 
             <header>
+                { move || selected.get().iter().map(|id| view! { <p>{id.clone()}</p> }).collect_view() }
                 <h1> Word Sets </h1> 
                 <button on:click=move |_| set_state.set("add")> 
                     <AddIcon/> 
@@ -117,8 +143,11 @@ pub fn HomeView() -> impl IntoView {
             <section id="content">
                 <div class="seperator"> Recent <hr/> </div>
                 <div id="sets_container">
-                    {move || sets.get().iter().map(|set| view! {
-                        <button class="set">
+                    {move || sets.get().iter().enumerate().map(|(index, set)| view! {
+                        <button class=move || if selected.get().contains(&sets.get().get(index).unwrap().id) {"selected set"} else {"set"}
+                            on:touchstart=move |_| set_touch_start(sets.get().get(index).unwrap().id, index)
+                            on:touchend=move |_| set_touch_stop(sets.get().get(index).unwrap().id)
+                            on:touchcancel=move |_| set_touch_stop(sets.get().get(index).unwrap().id)>
                             <h1>{&set.name}</h1>
                             <p>{set.description.clone().unwrap_or_else(|| "No description".to_string())}</p>
                         </button>

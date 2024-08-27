@@ -23,6 +23,8 @@
     -webkit-tap-highlight-color: transparent !important;
 }
 
+#main_navbar.hidden { transform: translateY(65px) }
+
 #main_navbar a.hovered { color: var(--text1) }
 #main_navbar a.focused { color: var(--text1) }
 #main_navbar a svg { font-size: 26px }
