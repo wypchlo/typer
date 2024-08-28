@@ -136,7 +136,7 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
 
     let set_touch_stop = move |set_id: i32| { 
         set_timeout(move || {
-            if !moved.get() { set_pressed.update(|pressed| pressed.retain(|value| *value != set_id)) };
+            set_pressed.update(|pressed| pressed.retain(|value| *value != set_id));
             reset_interval();
             set_moved.set(false);
         }, std::time::Duration::from_millis(50));
