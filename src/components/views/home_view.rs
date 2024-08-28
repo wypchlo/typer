@@ -89,12 +89,21 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
             fetch_sets();
         });
     };
-    
-    let (interval_handle, set_interval_handle) = create_signal::<Option<leptos_dom::helpers::IntervalHandle>>(None);
-    
+   
+    use leptos_dom::helpers::IntervalHandle;
+    use std::time::Duration;
+
+    let (interval_handle, set_interval_handle) = create_signal::<Option<IntervalHandle>>(None);
+    let (hold_duration, set_hold_duration) = create_signal(0);
     let (moved, set_moved) = create_signal(false);
 
-    let set_touch_move = move |event: leptos::ev::TouchEvent| { set_moved.set(true) };
+    let reset_interval = move || {
+        if interval_handle.get().is_some() { 
+            interval_handle.get().unwrap().clear();
+            set_interval_handle.set(None);
+        };
+        set_hold_duration.set(0);
+    };
 
     let set_touch_start = move |set_id: i32, index: usize| {
         set_timeout(move || {
@@ -103,30 +112,32 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
             set_pressed.update(|pressed| {pressed.push(set_id)});
 
             if selected.get().is_empty() { 
-                if interval_handle.get().is_some() { interval_handle.get().unwrap().clear() };
-                let interval_handle = set_interval_with_handle(move || {
-                    let mut new_selected = selected.get();
-                    new_selected.push(set_id);
-                    set_selected.set(new_selected);
-                    interval_handle.get().unwrap().clear();
-                }, std::time::Duration::from_millis(400));
+                if interval_handle.get().is_some() { set_selected.update(|selected| selected.push(set_id)) }
+                else {
+                    let interval_handle = set_interval_with_handle(move || {
+                        set_hold_duration.update(|value| *value += 1);
+                        if hold_duration.get() > 30 || pressed.get().len() > 1 {
+                            set_selected.update(|selected| selected.push(set_id));
+                            reset_interval();
+                        }
+                    }, Duration::from_millis(10));
 
-                set_interval_handle.set(Some(interval_handle.unwrap()));
+                    set_interval_handle.set(Some(interval_handle.unwrap()));
+                };
             }
             else {
-                let mut new_selected = selected.get();
-                if new_selected.contains(&set_id) { new_selected.retain(|value| *value != set_id); }
-                else { new_selected.push(set_id); };
-                set_selected.set(new_selected);
+                if selected.get().contains(&set_id) { set_selected.update(|selected| selected.retain(|value| *value != set_id)) }
+                else { set_selected.update(|selected| selected.push(set_id)) };
             };
         }, std::time::Duration::from_millis(50));
     };
 
+    let set_touch_move = move |event: leptos::ev::TouchEvent| { set_moved.set(true) };
+
     let set_touch_stop = move |set_id: i32| { 
         set_timeout(move || {
-            if moved.get() { return set_moved.set(false) };
-            set_pressed.update(|pressed| pressed.retain(|value| *value != set_id));
-            interval_handle.get().unwrap().clear();
+            if !moved.get() { set_pressed.update(|pressed| pressed.retain(|value| *value != set_id)) };
+            reset_interval();
             set_moved.set(false);
         }, std::time::Duration::from_millis(50));
     };
