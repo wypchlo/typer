@@ -91,51 +91,32 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
     };
     
     let (interval_handle, set_interval_handle) = create_signal::<Option<leptos_dom::helpers::IntervalHandle>>(None);
-    
-    let (moved, set_moved) = create_signal(false);
-
-    let set_touch_move = move |event: leptos::ev::TouchEvent| { set_moved.set(true) };
 
     let set_touch_start = move |set_id: i32, index: usize| {
-        set_timeout(move || {
-            if moved.get() { return };
+        set_pressed.update(|pressed| {pressed.push(set_id)});
 
-            set_pressed.update(|pressed| {pressed.push(set_id)});
-
-            if selected.get().is_empty() { 
-                if interval_handle.get().is_some() { interval_handle.get().unwrap().clear() };
-                let interval_handle = set_interval_with_handle(move || {
-                    let mut new_selected = selected.get();
-                    new_selected.push(set_id);
-                    set_selected.set(new_selected);
-                    interval_handle.get().unwrap().clear();
-                }, std::time::Duration::from_millis(400));
-
-                set_interval_handle.set(Some(interval_handle.unwrap()));
-            }
-            else {
+        if selected.get().is_empty() { 
+            if interval_handle.get().is_some() { interval_handle.get().unwrap().clear() };
+            let interval_handle = set_interval_with_handle(move || {
                 let mut new_selected = selected.get();
-                if new_selected.contains(&set_id) { new_selected.retain(|value| *value != set_id); }
-                else { new_selected.push(set_id); };
+                new_selected.push(set_id);
                 set_selected.set(new_selected);
-            };
-        }, std::time::Duration::from_millis(50));
+                interval_handle.get().unwrap().clear();
+            }, std::time::Duration::from_millis(400));
+
+            set_interval_handle.set(Some(interval_handle.unwrap()));
+        }
+        else {
+            let mut new_selected = selected.get();
+            if new_selected.contains(&set_id) { new_selected.retain(|value| *value != set_id); }
+            else { new_selected.push(set_id); };
+            set_selected.set(new_selected);
+        };
     };
 
     let set_touch_stop = move |set_id: i32| { 
-        set_timeout(move || {
-            if moved.get() { return set_moved.set(false) };
-            set_pressed.update(|pressed| pressed.retain(|value| *value != set_id));
-            interval_handle.get().unwrap().clear();
-            set_moved.set(false);
-        }, std::time::Duration::from_millis(50));
-    };
-
-    let link_class = move |id: i32| {
-        let mut result = String::from("set ");
-        if selected.get().contains(&id) { result += "selected "};
-        if pressed.get().contains(&id) { result += "pressed" };
-        result
+        set_pressed.update(|pressed| pressed.retain(|value| *value != set_id));
+        interval_handle.get().unwrap().clear();
     };
 
     fetch_sets();
@@ -168,21 +149,15 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
             <section id="content">
                 <div class="seperator"> Recent <hr/> </div>
                 <div id="sets_container">
-                    { move || sets.get().iter().enumerate().map(|(index, set)| 
-                        {
-                            let set_id = sets.get().get(index).unwrap().id;
-                            view! {
-                                <button class=move || link_class(set_id)
-                                on:touchmove=move |event| set_touch_move(event)
-                                on:touchstart=move |_| set_touch_start(set_id, index)
-                                on:touchend=move |_| set_touch_stop(set_id)
-                                on:touchcancel=move |_| set_touch_stop(set_id)>
-                                    <h1>{&set.name}</h1>
-                                    <p>{set.description.as_ref().unwrap()}</p>
-                                </button>
-                            }
-                        }).collect_view()
-                    }
+                    {move || sets.get().iter().enumerate().map(|(index, set)| view! {
+                        <button class=move || if selected.get().contains(&sets.get().get(index).unwrap().id) {"selected set"} else {"set"}
+                            on:touchstart=move |_| set_touch_start(sets.get().get(index).unwrap().id, index)
+                            on:touchend=move |_| set_touch_stop(sets.get().get(index).unwrap().id)
+                            on:touchcancel=move |_| set_touch_stop(sets.get().get(index).unwrap().id)>
+                            <h1>{&set.name}</h1>
+                            <p>{set.description.clone().unwrap_or_else(|| "No description".to_string())}</p>
+                        </button>
+                    }).collect_view()}
                 </div>
             </section>
         </main>
