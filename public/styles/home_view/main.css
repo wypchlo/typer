@@ -94,7 +94,7 @@
 #home_view #content #sets_container .set.pressed::before { bottom: 0 }
 #home_view #content #sets_container .selected::before { 
     bottom: 0 !important;
-    background: white !important;
+    background: var(--text1) !important;
 }
 
 #home_view #content #sets_container .selected { border: 2px solid var(--text1) }
