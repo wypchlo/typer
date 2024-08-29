@@ -1,7 +1,7 @@
 #main_navbar {
-    background-color: var(--main1);
+    background-color: var(--background);
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -18,7 +18,7 @@
     font-size: 12px;
     line-height: 18px;
     text-decoration: none;
-    width: 100%;
+    width: 160px;
     
     transition: color 0.1s;
     color: var(--text2);

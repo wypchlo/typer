@@ -36,7 +36,11 @@ body, html {
     overflow: hidden;
 } 
 
-body { background-color: var(--background) }
+body { 
+    background-color: var(--background);
+    max-width: 1000px;
+    margin: 0 auto;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
