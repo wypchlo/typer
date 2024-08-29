@@ -30,8 +30,8 @@
 
 #home_view #backdrop #modal_add {
     background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
-    height: clamp(300px, 50vh, 500px);
-    width: clamp(210px, 35vh, 350px);
+    height: clamp(300px, 50vh, 396px);
+    width: clamp(210px, 35vh, 277px);
     border-radius: clamp(25px, 5vh, 40px);
 
     display: flex;
@@ -53,8 +53,8 @@
 
 #home_view #backdrop #modal_add textarea:focus { outline: none }
 
-#home_view #backdrop #modal_add #name { font-size: clamp(22px, 3.6vh, 36px) }
-#home_view #backdrop #modal_add #description { font-size: clamp(12px, 1.8vh, 18px) }
+#home_view #backdrop #modal_add #name { font-size: clamp(24px, 3.6vh, 36px) }
+#home_view #backdrop #modal_add #description { font-size: clamp(10px, 1.5vh, 15px) }
 #home_view #backdrop #modal_add textarea::placeholder { color: var(--text2) }
 
 #home_view #backdrop #buttons {
