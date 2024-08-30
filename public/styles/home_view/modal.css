@@ -6,8 +6,9 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
+    align-content: space-evenly;
     flex-wrap: wrap;
 
     transition: opacity 0.15s;
@@ -17,7 +18,6 @@
 }
 
 #home_view #modal_container {
-    height: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,10 +29,11 @@
 }
 
 #home_view #backdrop #modal_add {
+    padding: 0;
     background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
-    height: clamp(300px, 50vh, 396px);
-    width: clamp(210px, 35vh, 277px);
-    border-radius: clamp(25px, 5vh, 40px);
+    width: clamp(140px, calc(min(75vw, 0.7 * 75vh)), 350px);
+    height: clamp(200px, calc(min(75vh, 75vw / 0.7)), 500px);
+    border-radius: clamp(20px, calc(min(8vh, 8vw / 0.7)), 50px);
 
     display: flex;
     flex-direction: column;
@@ -42,19 +43,21 @@
 }
 
 #home_view #backdrop #modal_add textarea {
+    padding: 0;
     field-sizing: content;
+    font-family: "Cantarell";
     resize: none;
     border: none;
     background: none;
-    max-width: 90%;
     text-align: center;
+    width: 90%;
     color: var(--text1);
 }
 
 #home_view #backdrop #modal_add textarea:focus { outline: none }
 
-#home_view #backdrop #modal_add #name { font-size: clamp(24px, 3.6vh, 36px) }
-#home_view #backdrop #modal_add #description { font-size: clamp(10px, 1.5vh, 15px) }
+#home_view #backdrop #modal_add #name { font-size: clamp(12px, calc(min(10vw, 0.70 * 10vh)), 47.5px) }
+#home_view #backdrop #modal_add #description { font-size: clamp(6px, calc(min(5vw, 0.70 * 5vh)), 23.75px) }
 #home_view #backdrop #modal_add textarea::placeholder { color: var(--text2) }
 
 #home_view #backdrop #buttons {
@@ -62,26 +65,31 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 20%;
-    gap: 80px;
-    width: 100%;
+    flex-wrap: wrap;
+    gap: clamp(20px, 15vmin, 80px);
 }
+
+@media (max-height: 400px) { #home_view #backdrop #buttons { flex-direction: column }}
 
 #home_view #backdrop #buttons button {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
+    aspect-ratio: 1;
+    height: clamp(60px, calc(min(20vw, 0.70 * 20vh)), 80px);
     border: none;
     border-radius: 100%;
     font-size: 36px;
     color: var(--text1);
     background: linear-gradient(-45deg, var(--main1) 0%, var(--shine) 100%);
+    flex-shrink: 0;
 }
 
 #home_view #backdrop #modal_add .error {
+    text-align: center;
     margin: 0;
     color: #FF0044;
+    font-size: clamp(6px, calc(min(5vw, 0.70 * 5vh)), 23.75px);
+    line-height: clamp(6px, calc(min(5vw, 0.70 * 5vh)), 23.75px);
     font-weight: 500;
 }

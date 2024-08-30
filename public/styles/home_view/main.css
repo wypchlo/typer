@@ -44,6 +44,12 @@
     width: 100%;
     height: 100%;
     overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 #home_view #content div.seperator {
@@ -95,6 +101,8 @@
     border-left: 1px solid var(--background);
     margin-bottom: 10px; 
     margin-top: 0;
+    word-break: break-all;
+    padding: 0;
 
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -132,8 +140,10 @@
 #home_view #content #sets_container .set h1 { 
     font-size: clamp(13px, 5.2vw, 26px);
     margin: 0;
+    width: 90%;
 }
 #home_view #content #sets_container .set p { 
-    margin: 3px;
-    font-size: clamp(7px, 2.4vw, 14px);
+    margin: 0;
+    font-size: clamp(6.5px, 2.6vw, 13px);
+    width: 90%;
 }
