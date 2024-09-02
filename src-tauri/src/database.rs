@@ -78,3 +78,13 @@ pub fn get_all_sets(conn: &Connection) -> Result<Vec<Set>, rusqlite::Error> {
     Ok(sets)
 }
 
+pub fn drop_sets(conn: &Connection, set_ids: Vec<i32>) -> Result<(), rusqlite::Error> {
+    let mut statement = conn.prepare("DELETE FROM sets WHERE sets.id IN (@ids)")?;
+    let mut ids = Vec::<String>::new();
+    for id in set_ids.into_iter() { ids.push(id.to_string()); }
+
+    match statement.execute(named_params! { "@ids": ids.join(", ") }) {
+        Ok(_) => Ok(()),
+        Err(err) => Err(rusqlite::Error::from(err))
+    }
+}

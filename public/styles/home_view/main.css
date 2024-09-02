@@ -68,7 +68,7 @@
     width: 100%;
     border: none;
     height: 1px;
-    background-color: var(--shine);
+    background-color: var(--text2);
     margin-left: 20px;
 }
 
@@ -81,6 +81,18 @@
     padding: 30px 5% 70px 5%;
     width: 100%;
     gap: clamp(15px, 6vw, 30px);
+}
+
+#home_view #content #buttons {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    justify-content: center;
+    display: none;
+}
+
+#home_view #content #buttons.active {
+    display: flex;
 }
 
 #home_view #content #sets_container .set {
@@ -97,8 +109,8 @@
     text-align: center;
     justify-content: center;
     border: 3px solid var(--background);
-    border-right: 1px solid var(--background);
-    border-left: 1px solid var(--background);
+    border-right: 1px;
+    border-left: 1px;
     margin-bottom: 10px; 
     margin-top: 0;
     word-break: break-all;

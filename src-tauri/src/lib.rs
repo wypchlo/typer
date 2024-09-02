@@ -23,13 +23,20 @@ fn get_all_sets(app_handle: AppHandle) -> Vec<Set> {
     app_handle.conn(|conn| database::get_all_sets(conn)).unwrap()
 }
 
+#[tauri::command]
+fn drop_sets(set_ids: Vec<i32>, app_handle: AppHandle) {
+    app_handle.conn(|conn| database::drop_sets(conn, set_ids).unwrap())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .manage(AppState { conn: Default::default() })
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_log::Builder::new().build())
-        .invoke_handler(tauri::generate_handler![add_set, get_all_sets])
+        .invoke_handler(tauri::generate_handler![
+            add_set, get_all_sets, drop_sets
+        ])
         .setup(|app| {
             let handle = app.handle();
 

@@ -76,7 +76,7 @@
     justify-content: center;
     align-items: center;
     aspect-ratio: 1;
-    height: clamp(60px, calc(min(20vw, 0.70 * 20vh)), 80px);
+    height: clamp(50px, calc(min(20vw, 0.70 * 20vh)), 65px);
     border: none;
     border-radius: 100%;
     font-size: 36px;
