@@ -3,6 +3,7 @@ use serde::{Serialize, Deserialize};
 use crate::app::components::icons::{AddIcon, CancelIcon, ConfirmIcon};
 use serde_wasm_bindgen::to_value;
 use wasm_bindgen::prelude::*;
+use crate::app::components::Textarea;
 
 #[wasm_bindgen]
 extern "C" {
@@ -186,6 +187,7 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
             </form>
 
             <header>
+                <Textarea/>
                 <h1> Word Sets </h1> 
                 <button on:click=move |_| set_state.set("add")> 
                     <AddIcon/> 

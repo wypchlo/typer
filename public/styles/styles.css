@@ -1,5 +1,6 @@
 @import "/public/styles/main_navbar.css";
 @import "/public/styles/home_view/main.css";
+@import "/public/styles/custom_textarea.css";
 
 @font-face {
   font-family: "Cantarell";

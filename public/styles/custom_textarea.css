@@ -1,0 +1,29 @@
+.custom-textarea-container { display: grid }
+.custom-textarea-container > .resizer {
+    white-space: pre-wrap;
+    visibility: hidden;
+    overflow-wrap: break-word;
+}
+
+.custom-textarea-container > textarea {
+    resize: none;
+    overflow: hidden;
+    height: 2px;
+}
+
+.custom-textarea-container > textarea,
+.custom-textarea-container > .resizer {
+    font-family: "Cantarell";
+    box-sizing: border-box;
+    max-width: 200px;
+    padding: 0.2rem;
+    font: inherit;
+    font-size: 2vw;
+    grid-area: 1 / 1 / 2 / 2; 
+    font-weight: bold;
+    line-height: 2vw;
+    white-space: pre-wrap;
+    border: 0;
+    height: auto;
+    font-weight: bold;
+}
