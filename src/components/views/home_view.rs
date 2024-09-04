@@ -67,11 +67,13 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
             }
         });
     };
+    
+    let name_input: NodeRef<html::Textarea> = create_node_ref();
 
     let on_submit = move |event: leptos::ev::SubmitEvent| { 
         event.prevent_default(); 
         spawn_local(async move {
-            let name = name.get_untracked();
+            let name = name_input.get().unwrap().value();
             let description = description.get_untracked();
 
             if name.is_empty() { return set_name_error.set(String::from("Set name is required")) }
@@ -165,14 +167,17 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
         if pressed.get().contains(&id) { classes.push("pressed")};
         classes.join(" ")
     };
-
+    
     fetch_sets();
+    
+    use crate::components::Textarea;
 
     view! {
         <main id="home_view">
             <form id="backdrop" on:submit=on_submit ref=form_ref class=move || if state.get() == "add" {"active"} else {""}>
                 <div id="modal_container">
                     <div id="modal_add">
+                        <Textarea placeholder="Set name" node_ref=name_input/>
                         <textarea on:input=update_name id="name" placeholder="Set name"/>
                         <Show when=move || !name_error.get().is_empty()> <p class="error">{move || name_error}</p> </Show>
                         <textarea on:input=update_description id="description" placeholder="description"/>
