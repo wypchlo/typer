@@ -10,8 +10,8 @@ pub fn Textarea() -> impl IntoView {
 
     view! {
         <div class="custom-textarea-container">
-            <div class="resizer">{ resizer_value_handler }</div>
-            <textarea rows="1" on:input=move |ev| set_value.set(event_target_value(&ev)) placeholder={placeholder}></textarea>
+            <div class="resizer textarea"> {resizer_value_handler} </div>
+            <textarea rows="1" class="textarea" on:input=move |ev| set_value.set(event_target_value(&ev)) placeholder={placeholder}></textarea>
         </div>
     } 
 }

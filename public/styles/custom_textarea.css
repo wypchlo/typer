@@ -11,19 +11,17 @@
     height: 2px;
 }
 
-.custom-textarea-container > textarea,
-.custom-textarea-container > .resizer {
+.custom-textarea-container > .textarea {
     font-family: "Cantarell";
     box-sizing: border-box;
     max-width: 200px;
-    padding: 0.2rem;
+    padding: 0;
     font: inherit;
-    font-size: 2vw;
+    font-size: 10px;
     grid-area: 1 / 1 / 2 / 2; 
     font-weight: bold;
-    line-height: 2vw;
+    line-height: 10px;
     white-space: pre-wrap;
     border: 0;
     height: auto;
-    font-weight: bold;
 }
