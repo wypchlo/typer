@@ -1,12 +1,10 @@
 .custom-textarea-container { 
     width: 100%;
     display: grid;
-    overflow-wrap: break-word;
 }
 .custom-textarea-container > .resizer {
     white-space: pre-wrap;
     visibility: hidden;
-    overflow-wrap: break-word;
 }
 
 .custom-textarea-container > textarea {
@@ -22,9 +20,8 @@
     padding: 0;
     font: inherit;
     font-size: 10px;
+    line-height: normal;
     grid-area: 1 / 1 / 2 / 2; 
-    font-weight: bold;
-    line-height: 10px;
     white-space: pre-wrap;
     word-break: break-all;
     border: 0;

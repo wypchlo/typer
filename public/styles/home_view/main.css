@@ -149,13 +149,13 @@
     transition: bottom .1s;
 }
 
+#home_view #content #sets_container .set h1 { font-size: clamp(13px, 5.2vw, 26px) }
+#home_view #content #sets_container .set p { font-size: clamp(6.5px, 2.6vw, 13px) }
+
+#home_view #content #sets_container .set p,
 #home_view #content #sets_container .set h1 { 
-    font-size: clamp(13px, 5.2vw, 26px);
     margin: 0;
     width: 90%;
-}
-#home_view #content #sets_container .set p { 
-    margin: 0;
-    font-size: clamp(6.5px, 2.6vw, 13px);
-    width: 90%;
+    white-space: pre-wrap;
+    word-break: break-all; /* I'm not sure if this one is needed but I'll keep it just in case */
 }

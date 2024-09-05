@@ -42,9 +42,7 @@
     gap: 4px;
 }
 
-#home_view #backdrop #modal_add :has(> .textarea) {
-    width: 90%;
-}
+#home_view #backdrop #modal_add :has(> .textarea) { width: 90% }
 #home_view #backdrop #modal_add .textarea {
     padding: 0;
     field-sizing: content;
@@ -60,9 +58,12 @@
 
 #home_view #backdrop #modal_add #name .textarea { 
     font-size: clamp(12px, calc(min(10vw, 0.70 * 10vh)), 47.5px); 
-    line-height: clamp(12px, calc(min(10vw, 0.70 * 10vh)), 47.5px); 
+    font-weight: bold;
 }
-#home_view #backdrop #modal_add #description { font-size: clamp(6px, calc(min(5vw, 0.70 * 5vh)), 23.75px) }
+#home_view #backdrop #modal_add #description .textarea { 
+    font-size: clamp(6px, calc(min(5vw, 0.70 * 5vh)), 23.75px);
+    line-height: clamp(6px, calc(min(5vw, 0.70 * 5vh)), 23.75px);
+}
 #home_view #backdrop #modal_add textarea::placeholder { color: var(--text2) }
 
 #home_view #backdrop #buttons {

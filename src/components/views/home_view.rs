@@ -35,8 +35,6 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
     
     let (name, set_name) = create_signal(String::new());
     let (description, set_description) = create_signal(String::new());
-   
-    let update_description = move |event| set_description.set(event_target_value(&event));
 
     let (name_error, set_name_error) = create_signal(String::new());
 
@@ -66,13 +64,11 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
             }
         });
     };
-        
-    let name_input: NodeRef<html::Textarea> = create_node_ref();
 
     let on_submit = move |event: leptos::ev::SubmitEvent| { 
         event.prevent_default(); 
         spawn_local(async move {
-            let name = name_input.get().expect("name_input should be mounted").value();
+            let name = name.get_untracked();
             let description = description.get_untracked();
 
             if name.is_empty() { return set_name_error.set(String::from("Set name is required")) }
@@ -176,9 +172,9 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
             <form id="backdrop" on:submit=on_submit ref=form_ref class=move || if state.get() == "add" {"active"} else {""}>
                 <div id="modal_container">
                     <div id="modal_add">
-                        <Textarea placeholder="Set name" id="name" value=name set_value=set_name node_ref=name_input/>
+                        <Textarea placeholder="Set name" id="name" value=name set_value=set_name/>
                         <Show when=move || !name_error.get().is_empty()> <p class="error">{move || name_error}</p> </Show>
-                        <textarea on:input=update_description id="description" placeholder="description"/>
+                        <Textarea placeholder="description" id="description" value=description set_value=set_description/>
                     </div>
                 </div>
 
