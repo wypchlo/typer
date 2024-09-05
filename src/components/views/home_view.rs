@@ -36,7 +36,6 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
     let (name, set_name) = create_signal(String::new());
     let (description, set_description) = create_signal(String::new());
    
-    let update_name = move |event| set_name.set(event_target_value(&event));
     let update_description = move |event| set_description.set(event_target_value(&event));
 
     let (name_error, set_name_error) = create_signal(String::new());
@@ -44,8 +43,8 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
     let clear_form = move || {
         if let Some(form) = form_ref.get() {
             form.reset();
-            set_name_error.set(String::new());
             set_name.set(String::new());
+            set_name_error.set(String::new());
             set_description.set(String::new());
         }
     };
@@ -67,13 +66,13 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
             }
         });
     };
-    
+        
     let name_input: NodeRef<html::Textarea> = create_node_ref();
 
     let on_submit = move |event: leptos::ev::SubmitEvent| { 
         event.prevent_default(); 
         spawn_local(async move {
-            let name = name_input.get().unwrap().value();
+            let name = name_input.get().expect("name_input should be mounted").value();
             let description = description.get_untracked();
 
             if name.is_empty() { return set_name_error.set(String::from("Set name is required")) }
@@ -177,8 +176,7 @@ pub fn HomeView(set_hide_navbar: WriteSignal<bool>) -> impl IntoView {
             <form id="backdrop" on:submit=on_submit ref=form_ref class=move || if state.get() == "add" {"active"} else {""}>
                 <div id="modal_container">
                     <div id="modal_add">
-                        <Textarea placeholder="Set name" node_ref=name_input/>
-                        <textarea on:input=update_name id="name" placeholder="Set name"/>
+                        <Textarea placeholder="Set name" id="name" value=name set_value=set_name node_ref=name_input/>
                         <Show when=move || !name_error.get().is_empty()> <p class="error">{move || name_error}</p> </Show>
                         <textarea on:input=update_description id="description" placeholder="description"/>
                     </div>

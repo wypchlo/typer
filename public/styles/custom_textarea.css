@@ -1,4 +1,8 @@
-.custom-textarea-container { display: grid }
+.custom-textarea-container { 
+    width: 100%;
+    display: grid;
+    overflow-wrap: break-word;
+}
 .custom-textarea-container > .resizer {
     white-space: pre-wrap;
     visibility: hidden;
@@ -14,7 +18,7 @@
 .custom-textarea-container > .textarea {
     font-family: "Cantarell";
     box-sizing: border-box;
-    max-width: 200px;
+    max-width: 1000px;
     padding: 0;
     font: inherit;
     font-size: 10px;
@@ -22,6 +26,7 @@
     font-weight: bold;
     line-height: 10px;
     white-space: pre-wrap;
+    word-break: break-all;
     border: 0;
     height: auto;
 }
