@@ -4,13 +4,17 @@
 }
 .custom-textarea-container > .resizer {
     white-space: pre-wrap;
-    visibility: hidden;
+    visibility: visible;
 }
 
+.custom-textarea-container > textarea::placeholder { color: transparent !important }
 .custom-textarea-container > textarea {
     resize: none;
     overflow: hidden;
     height: 2px;
+    z-index: 2;
+    color: transparent !important;
+    caret-color: white;
 }
 
 .custom-textarea-container > .textarea {

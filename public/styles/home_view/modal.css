@@ -64,7 +64,7 @@
     font-size: clamp(6px, calc(min(5vw, 0.70 * 5vh)), 23.75px);
     line-height: clamp(6px, calc(min(5vw, 0.70 * 5vh)), 23.75px);
 }
-#home_view #backdrop #modal_add textarea::placeholder { color: var(--text2) }
+#home_view #backdrop #modal_add :has(> textarea:placeholder-shown) .resizer { color: var(--text2) }
 
 #home_view #backdrop #buttons {
     display: flex;

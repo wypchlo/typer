@@ -11,8 +11,8 @@ pub fn Textarea(
     
     view! {
         <div class="custom-textarea-container" id=id>
-            <div class="resizer textarea">{resizer_value_handler}</div>
             <textarea rows="1" class="textarea" on:input=move |ev| set_value.set(event_target_value(&ev)) placeholder=placeholder></textarea>
+            <div class="resizer textarea">{resizer_value_handler}</div>
         </div>
     } 
 }
